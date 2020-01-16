@@ -5,16 +5,18 @@ import { Header, Button } from 'react-native-elements';
 
 import Index from './src/pages/Index';
 import Add from './src/pages/Add';
+import { Text, View } from 'react-native';
 
-const ADD = (props) => {
+const AddBt = (props) => {
     return (
         <Button
             icon={{
                 name: "add",
-                size: 15,
-                color: "white"
+                size: 25,
+                color: "white",
             }}
             title=""
+            type="clear"
             onPress={() => props.navigation.navigate('Add')}
         />
     )
@@ -22,12 +24,20 @@ const ADD = (props) => {
 const App = createStackNavigator({
     Index: {
         screen: Index,
-        navigationOptions: {
-            header: () => <Header
-                centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
-                rightComponent={{ icon: 'add', style: { color: '#fff' } }}
-            />
-        }
+
+        navigationOptions: ({ navigation }) => ({
+            title: 'VUTTR',
+            headerRight: () => (
+                <AddBt navigation={navigation} /> 
+            )
+            // header: ( 
+            //     <Header
+            //         style={{ backgroundColor: '#1976d2' }}
+            //         centerComponent={{ text: 'VUTTR', style: { color: '#fff', fontSize: 18 } }}
+            //         rightComponent={}
+            //     />
+            // )
+        })
     },
     Add: {
         screen: Add
@@ -38,7 +48,7 @@ const App = createStackNavigator({
         headerTintColor: '#fff',
         headerBackTitle: null,
         headerStyle: {
-            backgroundColor: "#402039",
+            backgroundColor: "#3f51b5",
         }
     },
     mode: 'modal'

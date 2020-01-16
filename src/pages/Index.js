@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, Alert } from 'react-native'
 import api from '../services/api';
 import Tool from '../components/Tool';
-import { Button, Header } from 'react-native-elements';
+import { Button, Header, Input, SearchBar, CheckBox } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 function Index(props) {
@@ -36,7 +36,6 @@ function Index(props) {
     setLoading(true);
     await api.delete(`/tools/${id}`);
     setReload(reload => (!reload));
-    handleCloseRemove();
     setLoading(false);
   }
 
@@ -63,14 +62,16 @@ function Index(props) {
   }
 
   function handleOpenRemove(tool) {
-    setTool(tool);
-    setOpenRemove(true);
+    Alert.alert(
+      'Remove Tool',
+      `Are you sure you want to remove ${tool.name}?`,
+      [
+        { text: 'Cancel', onPress: () => null },
+        { text: 'Yes, remove', onPress: () => handleRemove(tool.id) },
+      ],
+      { cancelable: false }
+    )
   }
-
-  function handleCloseRemove() {
-    setOpenRemove(false);
-  }
-
   return (
     // <Container style={{ display: 'flex', alignContent: 'center', justifyContent: 'center', flexDirection: 'column' }}>
     //     <Typography variant="h3">VUTTR</Typography>
@@ -123,10 +124,52 @@ function Index(props) {
     //         ))
     //     }
     // </Container >
-    <View>
-      <Text>VUTTR</Text>
-      <Text>Very Useful Tools To Remember</Text>
+    <View style={{ flex: 1 }}>
 
+      {loading && <ActivityIndicator size="large" color="#3f51b5" />}
+
+      <View >
+        <SearchBar
+          placeholder="Search"
+          onChangeText={term => handleSearch(term)}
+          value={term}
+          platform="android"
+          cancelIcon={false}
+        />
+        <CheckBox
+          center
+          title='Search for tags only'
+          checked={tagsOnly}
+          onPress={() => setTagsOnly(tagsOnly => !tagsOnly)}
+          checkedColor='#3f51b5'
+        />
+      </View>
+
+
+      {!search ?
+        <FlatList
+          data={tools}
+          renderItem={({ item }) => (
+            <Tool tool={item} handleOpenRemove={handleOpenRemove} />
+          )}
+          extraData={tools}
+          keyExtractor={item => item.id}
+          initialNumToRender={10}
+          maxToRenderPerBatch={10}
+          updateCellsBatchingPeriod={50}
+        /> :
+        <FlatList
+          data={searchResults}
+          renderItem={({ item }) => (
+            <Tool tool={item} handleOpenRemove={handleOpenRemove} />
+          )}
+          extraData={tools}
+          keyExtractor={(item, index) => index.toString()}
+          initialNumToRender={10}
+          maxToRenderPerBatch={10}
+          updateCellsBatchingPeriod={50}
+        />
+      }
       <Button
         icon={{
           name: "add",
@@ -136,23 +179,6 @@ function Index(props) {
         title="Add tool"
         onPress={() => props.navigation.navigate('Add', { setReload: setReload })}
       />
-
-      {!search ?
-        <FlatList
-          data={tools}
-          renderItem={({ item }) => (
-            <Tool tool={item} handleOpenRemove={handleOpenRemove} />
-          )}
-          keyExtractor={item => item.id}
-        /> :
-        <FlatList
-          data={searchResults}
-          renderItem={({ item }) => (
-            <Tool tool={item} handleOpenRemove={handleOpenRemove} />
-          )}
-          keyExtractor={(item, index) => index.toString()}
-        />
-      }
     </View>
   )
 }

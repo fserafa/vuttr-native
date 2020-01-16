@@ -27,7 +27,7 @@ export default function Add(props) {
             description: '',
             tags: ''
         });
-        setReload(reload => !reload);
+        await setReload(reload => !reload); 
         props.navigation.navigate('Index');
     }
 
