@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, Alert } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, Alert, StyleSheet } from 'react-native'
 import api from '../services/api';
 import Tool from '../components/Tool';
-import { Button, Header, Input, SearchBar, CheckBox } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Button, Header, Input, SearchBar, CheckBox, Icon } from 'react-native-elements';
 
 function Index(props) {
   const [tools, setTools] = useState([]);
@@ -66,7 +65,7 @@ function Index(props) {
       'Remove Tool',
       `Are you sure you want to remove ${tool.name}?`,
       [
-        { text: 'Cancel', onPress: () => null },
+        { text: 'Cancel', onPress: () => null, style: 'destructive' },
         { text: 'Yes, remove', onPress: () => handleRemove(tool.id) },
       ],
       { cancelable: false }
@@ -170,18 +169,60 @@ function Index(props) {
           updateCellsBatchingPeriod={50}
         />
       }
+
+
+
       <Button
+        containerStyle={{ flex: 1, flexDirection: 'column', alignItems: 'flex-end', padding: 10 }}
+        buttonStyle={styles.button}
         icon={{
           name: "add",
-          size: 15,
+          size: 25,
           color: "white"
         }}
-        title="Add tool"
         onPress={() => props.navigation.navigate('Add', { setReload: setReload })}
+        raised
       />
+
+      <TouchableOpacity>
+        <Icon
+          size={30}
+          name='add'
+
+          onPress={() => props.navigation.navigate('Add', { setReload: setReload })} />
+      </TouchableOpacity>
+
+      {/* <Icon
+        containerStyle={{ alignItems: 'flex-end', marginTop: -50, }}
+        reverse
+        size={30}
+        name='add'
+        color='#3f51b5'
+        onPress={() => props.navigation.navigate('Add', { setReload: setReload })}
+      /> */}
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  button: {
+    height: 30 * 2,
+    width: 30 * 2,
+    // width: 60,
+    // height: 60,
+    padding: 10,
+    borderRadius: 40,
+    backgroundColor: '#3f51b5',
+    // position: 'absolute',
+    // bottom: 20,
+    // right: 20,
+    shadowColor: 'rgba(0, 0, 0, 0.1)',
+    shadowOpacity: 0.8,
+    elevation: 6,
+    shadowRadius: 15,
+    shadowOffset: { width: 1, height: 13 },
+  },
+})
 
 
 
