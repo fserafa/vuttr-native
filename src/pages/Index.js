@@ -87,13 +87,14 @@ function Index(props) {
                     platform="default"
                     cancelIcon={false}
                     placeholderTextColor='#fff'
+                    autoCapitalize='none'
                 />
 
                 <View style={styles.checkboxContainer}>
                     <CheckBox
                         style={{ flexDirection: 'column' }}
                         size={18}
-                        center={{ flexDirection: 'column' }}
+                        center
                         textStyle={styles.checkboxText}
                         containerStyle={styles.checkboxContainer}
                         checked={tagsOnly}

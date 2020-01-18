@@ -88,7 +88,7 @@ export default function Add(props) {
                 placeholder='Tags'
                 value={tool.tags}
                 onChangeText={tags => setTool(tool => ({ ...tool, tags: tags }))}
-                autoCapitalize={false}
+                autoCapitalize='none'
                 autoCorrect={false}
                 onFocus={() => setInfo('Write your tags without # and separeted by space')}
             />
