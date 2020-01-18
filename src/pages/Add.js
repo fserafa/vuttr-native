@@ -16,7 +16,7 @@ export default function Add(props) {
     const [info, setInfo] = useState(null);
 
     function handleChange(field, value) {
-        if (!value.startsWith('http')) {
+        if (!value.toLowerCase().startsWith('http')) {
             setError('Link must start with http or https')
         } else {
             setError(null)
