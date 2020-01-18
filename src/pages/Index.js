@@ -88,6 +88,7 @@ function Index(props) {
                     cancelIcon={false}
                     placeholderTextColor='#fff'
                     autoCapitalize='none'
+                    autoCorrect={false}
                 />
 
                 <View style={styles.checkboxContainer}>

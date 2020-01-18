@@ -12,21 +12,27 @@ export default function Add(props) {
         description: '',
         tags: ''
     })
-    const [error, setError] = useState(null);
+    const [error, setError] = useState({
+        status: null,
+        message: ''
+    });
     const [info, setInfo] = useState(null);
 
     function handleChange(field, value) {
-        if (!value.toLowerCase().startsWith('http')) {
-            setError('Link must start with http or https')
-        } else {
-            setError(null)
+        if (field === 'link') {
+            if (!value.toLowerCase().startsWith('http')) {
+                setError({ status: true, message: 'Link must start with http or https' })
+            }
+            else {
+                setError({ status: false, message: '' })
+            }
         }
 
         setTool(tool => ({ ...tool, [field]: value }))
     }
 
     async function handleAdd() {
-        if (error) return;
+        if (error.status) return;
 
         const setReload = props.navigation.getParam('setReload');
 
@@ -41,7 +47,7 @@ export default function Add(props) {
             description: '',
             tags: ''
         });
-        await setReload(reload => !reload);
+        setReload(reload => !reload);
         props.navigation.navigate('Index');
     }
 
@@ -68,7 +74,8 @@ export default function Add(props) {
                 autoCorrect={false}
                 onChangeText={link => handleChange('link', link)}
             />
-            {error && <Text style={styles.errorMessage}>{error}</Text>}
+
+            {error.status && <Text style={styles.errorMessage}>{error.message}</Text>}
 
             <Input
                 inputStyle={styles.input}
@@ -90,7 +97,8 @@ export default function Add(props) {
                 onChangeText={tags => setTool(tool => ({ ...tool, tags: tags }))}
                 autoCapitalize='none'
                 autoCorrect={false}
-                onFocus={() => setInfo('Write your tags without # and separeted by space')}
+                onFocus={() => setInfo('Write your tags without # and separated by space')}
+                onBlur={() => setInfo(null)}
             />
             {info && <Text style={styles.infoMessage}>{info}</Text>}
             <Button
