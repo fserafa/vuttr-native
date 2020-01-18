@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text } from 'react-native'
+import { Text, View } from 'react-native'
 import api from '../services/api';
 import { Input, Card } from 'react-native-elements';
 import { Button } from 'react-native-elements';
@@ -13,7 +13,7 @@ export default function Add(props) {
         tags: ''
     })
     const [error, setError] = useState({
-        status: null,
+        status: true,
         message: ''
     });
     const [info, setInfo] = useState(null);
@@ -32,23 +32,26 @@ export default function Add(props) {
     }
 
     async function handleAdd() {
-        if (error.status) return;
+        if (error.status) {
+            return setError({ status: true, message: 'Link must start with http or https' });
+        }
+        else {
+            const setReload = props.navigation.getParam('setReload');
 
-        const setReload = props.navigation.getParam('setReload');
+            const _tool = { ...tool };
+            _tool.tags = _tool.tags.split(' ');
 
-        const _tool = { ...tool };
-        _tool.tags = _tool.tags.split(' ');
+            await api.post(`/tools/`, _tool);
 
-        await api.post(`/tools/`, _tool);
-
-        setTool({
-            name: '',
-            link: '',
-            description: '',
-            tags: ''
-        });
-        setReload(reload => !reload);
-        props.navigation.navigate('Index');
+            setTool({
+                name: '',
+                link: '',
+                description: '',
+                tags: ''
+            });
+            setReload(reload => !reload);
+            props.navigation.navigate('Index');
+        }
     }
 
     return (
@@ -75,7 +78,7 @@ export default function Add(props) {
                 onChangeText={link => handleChange('link', link)}
             />
 
-            {error.status && <Text style={styles.errorMessage}>{error.message}</Text>}
+            {error.status && error.message !== '' ? <Text style={styles.errorMessage}>{error.message}</Text> : null}
 
             <Input
                 inputStyle={styles.input}
