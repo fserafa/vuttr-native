@@ -2,9 +2,9 @@
 
 ##  Print Screen
 <p float="left">
-  <img src="https://github.com/fserafa/vuttr-native/blob/master/screens/01.jpg" width="250" />
-  <img src="https://github.com/fserafa/vuttr-native/blob/master/screens/02.jpg" width="250" /> 
-  <img src="https://github.com/fserafa/vuttr-native/blob/master/screens/03.jpg" width="250" /> 
+  <img src="https://github.com/fserafa/vuttr-native/blob/master/screens/01.png" width="250" />
+  <img src="https://github.com/fserafa/vuttr-native/blob/master/screens/02.png" width="250" /> 
+  <img src="https://github.com/fserafa/vuttr-native/blob/master/screens/03.png" width="250" /> 
 </p>
 
 
