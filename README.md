@@ -9,7 +9,8 @@
 
 
 ##  App demo download
-https://expo.io/artifacts/cf5c1137-f528-44d3-bed6-de96263eb493
+ https://expo.io/artifacts/ddf4000b-2186-43a9-af1c-6370fe7d6d39
+
 
 ##  EN
 ##  Installation
